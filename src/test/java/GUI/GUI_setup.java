@@ -7,6 +7,7 @@ import TiqDiet_class.Excel_operation;
 import TiqDiet_class.Ingredients;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -34,7 +35,7 @@ public class GUI_setup extends JFrame{
     public String out_put = "";
     Task task;
     public double progres = 0;
-
+    public String file_path;
     Excel_operation input_file = new Excel_operation();
     public ArrayList<Dish> input_dish_list = new ArrayList<Dish>();
     public ArrayList<Ingredients> failed_product_list = new ArrayList<Ingredients>();
@@ -73,6 +74,11 @@ public class GUI_setup extends JFrame{
             }
 
             Add_dish add_dish = new Add_dish(input_dish_list, x, failed_product_list);
+
+            int i = JOptionPane.showConfirmDialog(x, "Open output file?", "The END!", JOptionPane.YES_NO_OPTION);
+            if(i == 0){
+                Desktop.getDesktop().open(new File(file_path));
+            }
 
 
             add_out_put("Done!!");

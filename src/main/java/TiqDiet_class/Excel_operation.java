@@ -208,8 +208,8 @@ public class Excel_operation {
         wb.write(get_failed_file);
         get_failed_file.close();
         wb.close();
-
-        Desktop.getDesktop().open(new File("dish_data/"+file_name));
+        file_path = "dish_data/"+file_name;
+        //Desktop.getDesktop().open(new File("dish_data/"+file_name));
     }
 
     public void Get_failed_product_file(ArrayList<Ingredients> ingredinet) throws IOException {

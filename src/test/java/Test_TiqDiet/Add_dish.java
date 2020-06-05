@@ -2,6 +2,7 @@ package Test_TiqDiet;
 
 import GUI.GUI_setup;
 import TiqDiet_class.Dish;
+import TiqDiet_class.Excel_operation;
 import TiqDiet_class.Ingredients;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,6 +10,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -43,15 +45,18 @@ public class Add_dish {
     }
 
     @AfterMethod
-    public void end(){
+    public void end() throws IOException {
         chrome.close();
         gui_input.add_out_put("All dish in file: "+all_dish);
         gui_input.add_out_put("Passed add dish: "+passed_dish_list.size());
         gui_input.add_out_put("Failed add dish: "+failed_dish_list.size());
-        //input_file.get_error_file_dish(failed_dish_list);
+        Excel_operation out_put = new Excel_operation();
+        out_put.get_error_file_dish(failed_dish_list);
+        gui_input.file_path = out_put.file_path;
+        gui_input.add_out_put("File path: "+out_put.file_path);
     }
 
-    public Add_dish(ArrayList<Dish> input_file_dish, GUI_setup gui, ArrayList<Ingredients> failed_product){
+    public Add_dish(ArrayList<Dish> input_file_dish, GUI_setup gui, ArrayList<Ingredients> failed_product) throws IOException {
         input_dish_list = input_file_dish;
         failed_product_list = failed_product;
         gui_input = gui;
