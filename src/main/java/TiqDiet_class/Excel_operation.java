@@ -31,6 +31,8 @@ public class Excel_operation {
         Iterator<Row> rowIterator = sheet.iterator();
         Dish new_dish = null;
         int temp_i = 0;
+        int row_int = 0;
+
 
         while(rowIterator.hasNext()){
             Row row = rowIterator.next();
@@ -130,6 +132,7 @@ public class Excel_operation {
                 }
             }
         }
+
     }
 
     public ArrayList<Dish> get_dish_list(){
@@ -143,6 +146,7 @@ public class Excel_operation {
         int row_count = 0;
 
         for(int i = 0; i < failed_dish_list.size(); i++){
+
             Dish fialed_dish = new Dish();
             fialed_dish = failed_dish_list.get(i);
 

@@ -7,6 +7,7 @@ import TiqDiet_class.Excel_operation;
 import TiqDiet_class.Ingredients;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,19 +44,24 @@ public class GUI_setup extends JFrame{
     class Task extends SwingWorker<Void, Void>{
 
         GUI_setup x;
+        Product_verification prod_very;
         public Task(GUI_setup gui_setup) {
             x = gui_setup;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
+            DefaultCaret caret = (DefaultCaret)out_put_area.getCaret();
+            caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
             out_put = "";
+            input_dish_list.clear();
             add_out_put("Start read file: "+ dish_fileTextField.getText());
             input_file.Read_file(dish_fileTextField.getText());
             input_dish_list = input_file.get_dish_list();
             add_out_put("End read file: "+ dish_fileTextField.getText());
             add_out_put("In file find: "+input_dish_list.size() + " dish to add");
-            progressBar1.setValue((int) (progres+5));
+            progres = progres + 5;
+            progressBar1.setValue((int) (progres));
 
             if(checkProduct.isSelected()){
                 if(fileExistCheckBox.isSelected()){
@@ -65,7 +71,7 @@ public class GUI_setup extends JFrame{
                     add_out_put("In file find: "+failed_product_list.size() + " products is not add to Tiq-Database");
                 }else{
                     add_out_put("Start product verification");
-                    Product_verification prod_very = new Product_verification(input_dish_list,x);
+                    prod_very = new Product_verification(input_dish_list,x);
                     failed_product_list = input_file.get_fialed_product(check_product_file.getText());
                     add_out_put(failed_product_list.size() + " products is not add to Tiq-Database");
                 }
@@ -74,7 +80,7 @@ public class GUI_setup extends JFrame{
             }
 
             Add_dish add_dish = new Add_dish(input_dish_list, x, failed_product_list);
-
+            file_path = add_dish.out_put.file_path;
             int i = JOptionPane.showConfirmDialog(x, "Open output file?", "The END!", JOptionPane.YES_NO_OPTION);
             if(i == 0){
                 Desktop.getDesktop().open(new File(file_path));
@@ -109,7 +115,6 @@ public class GUI_setup extends JFrame{
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
-
             }
 
             @Override
